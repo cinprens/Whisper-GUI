@@ -31,3 +31,7 @@ The application depends on the following Python libraries:
 - `GPUtil`: For GPU monitoring (optional)
 
 ![Screenshot 2024-10-10 145125](https://github.com/user-attachments/assets/307f2bfa-4a26-4e88-a2ea-55402e1efab8)
+
+
+if not work follow this page
+https://github.com/openai/whisper
