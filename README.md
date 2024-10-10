@@ -21,6 +21,8 @@ To run this project locally, make sure you have the following installed:
 - `pip` package manager
 
 ## Dependencies
+GUI SPOILER
+![image](https://github.com/user-attachments/assets/dff5b662-6d12-4323-9142-3b860d2ef3e9)
 
 The application depends on the following Python libraries:
 
