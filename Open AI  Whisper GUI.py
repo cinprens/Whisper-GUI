@@ -678,8 +678,8 @@ if __name__ == "__main__":
         }
     }
 
-    # Varsayılan dili Türkçe yapıyoruz
-    UI_TEXT = LANGUAGES_UI['tr']
+    # Varsayılan dili İngilizce yapıyoruz
+    UI_TEXT = LANGUAGES_UI['en']
 
     # Menüleri oluştur
     create_menus()
