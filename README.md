@@ -21,7 +21,7 @@ To run this project locally, make sure you have the following installed:
 ## Dependencies
 GUI SPOILER
 
-![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/c45f01a9-0032-48d5-85b4-81469d3673b8)
+![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/88da864f-8532-4d0f-9aa9-be550f00336e)
                 
 
 The application depends on the following Python libraries:
