@@ -1,37 +1,48 @@
-Whisper Transcriber & Translator
-This project is a Python GUI application that utilizes OpenAI's Whisper model for audio transcription and Google Translate for text translation. It supports multiple languages, GPU acceleration, real-time system monitoring, and provides options for saving transcriptions and translations.
+Hello there! I'm an entry-level developer, and I'd like to share my exciting Transcriber & Translator project that uses OpenAI Whisper.
 
-## Features
+🚀 Project Goals
+Convert audio files (mp3, mp4, wav, etc.) into text transcriptions.
+Use Google Translate to translate the generated text into multiple languages.
+Enable GPU (CUDA) acceleration for faster transcription and translation.
+Provide a Python GUI for ease of use and real-time system monitoring.
+Show CPU, RAM, and GPU usage (if available) in real time.
+Display total character counts and detailed logs.
+🌟 Key Features
+OpenAI's Whisper for audio-to-text transcription.
+Google Translate integration for multi-language support.
+GPU (CUDA) acceleration for processing larger audio files faster.
+Real-time system stats and log outputs in the GUI.
+Option to save transcriptions and translations as .txt.
+In-app automatic installation for missing libraries.
+⚙️ Requirements
+Python 3.10+
+pip package manager
+FFmpeg (A must-have for handling various audio/video formats! Download & install)
+openai-whisper, torch, psutil, GPUtil, googletrans (install in-app or via pip)
+📁 Repository Contents
+WhisperGUI.py: Main GUI application with advanced features, real-time resource monitoring, and GPU acceleration.
+WhisperTranslator.py: Alternative or simpler version handling transcription and translation logic; feel free to tweak it.
 
-- **Audio Transcription**: Transcribe audio files (e.g., `.mp3`, `.mp4`, `.wav`) into text using the Whisper model.
-- **Text Translation**: Translate the transcribed text into multiple languages using Google Translate.
-- **GPU Acceleration**: Supports GPU acceleration using PyTorch for faster transcriptions.
-- **Dynamic Requirements Installation**: Users can install missing dependencies directly from the application.
-- **Real-Time System Monitoring**: Displays CPU, RAM, and (if available) GPU usage in real-time.
-- **Character Count**: Displays the character count for both the transcription
-- **Log System**: Shows detailed logs during transcription and translation processes.
-
-## Prerequisites
-
-To run this project locally, make sure you have the following installed:
-
-- Python 3.10 or higher
-- `pip` package manager
-
-## Dependencies
-GUI SPOILER
-
-![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/88da864f-8532-4d0f-9aa9-be550f00336e)
-                
-
-The application depends on the following Python libraries:
-
-- `openai-whisper`: For audio transcription
-- `torch`: PyTorch for GPU acceleration
-- `psutil`: For system resource monitoring (CPU, RAM)
-- `GPUtil`: For GPU monitoring (optional)
+![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/932a7e37-0fd9-40d8-9a64-e4cc64eec556)
 
 
 
-if not work follow this page
-https://github.com/openai/whisper
+🏁 How to Run
+Clone or download this repository.
+Make sure you have Python 3.10+ installed.
+Verify that FFmpeg is installed and added to your system PATH.
+
+Open a terminal in the project folder:
+cd WhisperTranscriberProject
+
+
+If you lack the required packages (e.g., first time user), use the “Install Requirements” button in the app or run:
+
+pip install openai-whisper torch psutil GPUtil googletrans==4.0.0-rc1
+
+In the GUI, select an audio file, choose a model, click “Start Transcription,” then use “Translate” to get text in your preferred language!
+🎉 Contribute
+Feel free to open a pull request or issue for any bug reports or improvements.
+As an entry-level developer, I’m completely open to any kind of suggestion or help!
+Have fun! 🙌![Screenshot 2025-01-27 202626](https://github.com/user-attachments/assets/7159e13d-08dd-4015-a985-fd50ca97beac)
+
