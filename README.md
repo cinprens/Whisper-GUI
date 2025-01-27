@@ -1,6 +1,5 @@
-# Whisper Transcriber & Translator
-
-This project is a Python-based GUI application that uses OpenAI's Whisper model for audio transcription and Google Translate for text translation. It supports multiple languages, GPU acceleration, and allows users to save transcriptions and translations as text files.
+Whisper Transcriber & Translator
+This project is a Python GUI application that utilizes OpenAI's Whisper model for audio transcription and Google Translate for text translation. It supports multiple languages, GPU acceleration, real-time system monitoring, and provides options for saving transcriptions and translations.
 
 ## Features
 
@@ -9,7 +8,6 @@ This project is a Python-based GUI application that uses OpenAI's Whisper model 
 - **GPU Acceleration**: Supports GPU acceleration using PyTorch for faster transcriptions.
 - **Dynamic Requirements Installation**: Users can install missing dependencies directly from the application.
 - **Real-Time System Monitoring**: Displays CPU, RAM, and (if available) GPU usage in real-time.
-- **Multiple Languages**: Supports both English and Turkish as the UI language.
 - **Character Count**: Displays the character count for both the transcription and translation.
 - **Log System**: Shows detailed logs during transcription and translation processes.
 
@@ -22,17 +20,17 @@ To run this project locally, make sure you have the following installed:
 
 ## Dependencies
 GUI SPOILER
-![image](https://github.com/user-attachments/assets/dff5b662-6d12-4323-9142-3b860d2ef3e9)
+
+![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/c45f01a9-0032-48d5-85b4-81469d3673b8)
+                
 
 The application depends on the following Python libraries:
 
 - `openai-whisper`: For audio transcription
 - `torch`: PyTorch for GPU acceleration
 - `psutil`: For system resource monitoring (CPU, RAM)
-- `googletrans==4.0.0-rc1`: For text translation via Google Translate
 - `GPUtil`: For GPU monitoring (optional)
 
-![Screenshot 2024-10-10 145125](https://github.com/user-attachments/assets/307f2bfa-4a26-4e88-a2ea-55402e1efab8)
 
 
 if not work follow this page
