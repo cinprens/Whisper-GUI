@@ -8,7 +8,7 @@ This project is a Python GUI application that utilizes OpenAI's Whisper model fo
 - **GPU Acceleration**: Supports GPU acceleration using PyTorch for faster transcriptions.
 - **Dynamic Requirements Installation**: Users can install missing dependencies directly from the application.
 - **Real-Time System Monitoring**: Displays CPU, RAM, and (if available) GPU usage in real-time.
-- **Character Count**: Displays the character count for both the transcription and translation.
+- **Character Count**: Displays the character count for both the transcription
 - **Log System**: Shows detailed logs during transcription and translation processes.
 
 ## Prerequisites
