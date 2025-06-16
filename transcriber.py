@@ -1,14 +1,15 @@
-import os␊
-import sys␊
-import queue␊
-import threading␊
-import subprocess␊
-import torch␊
-import whisper␊
-import time  # Eksik import tamamlandı␊
-␊
+import os
+import sys
+import queue
+import threading
+import subprocess
+import torch
+import whisper
+import time  # Eksik import tamamlandı
+from tkinter import messagebox
+
 from config import MODEL_FOLDER
-os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists␊
+os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 MODEL_LIST = [
     "tiny", "tiny.en",
