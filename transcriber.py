@@ -6,10 +6,26 @@ import subprocess
 import torch
 import whisper
 import time  # Eksik import tamamlandı
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 
 from config import MODEL_FOLDER
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
+
+
+def ensure_model_folder():
+    """Check model folder and optionally let the user choose a new one."""
+    global MODEL_FOLDER
+    if not os.path.isdir(MODEL_FOLDER):
+        os.makedirs(MODEL_FOLDER, exist_ok=True)
+    if messagebox.askyesno(
+        "Model Klasörü",
+        f"Model klasörü olarak '{MODEL_FOLDER}' kullanılacak. Değiştirmek ister misiniz?",
+    ):
+        new_dir = filedialog.askdirectory(initialdir=MODEL_FOLDER)
+        if new_dir:
+            MODEL_FOLDER = new_dir
+            os.makedirs(MODEL_FOLDER, exist_ok=True)
+
 
 MODEL_LIST = [
     "tiny", "tiny.en",
@@ -74,6 +90,7 @@ def run_transcription(q, stop_evt, model_name, audio_file):
 
 def transcribe(q, stop_event, model_name, selected_file):
     stop_event.clear()
+    ensure_model_folder()
     threading.Thread(
         target=run_transcription,
         args=(q, stop_event, model_name, selected_file),
