@@ -15,7 +15,7 @@ def test_check_requirements_all_present():
     original_import = builtins.__import__
 
     def import_mock(name, globals=None, locals=None, fromlist=(), level=0):
-        if name in ("psutil", "GPUtil"):
+        if name in ("psutil", "GPUtil", "fpdf"):
             return mock.MagicMock()
         return original_import(name, globals, locals, fromlist, level)
 
@@ -29,7 +29,7 @@ def test_check_requirements_missing_psutil():
     def import_mock(name, globals=None, locals=None, fromlist=(), level=0):
         if name == "psutil":
             raise ImportError()
-        if name == "GPUtil":
+        if name in ("GPUtil", "fpdf"):
             return mock.MagicMock()
         return original_import(name, globals, locals, fromlist, level)
 
@@ -41,9 +41,9 @@ def test_check_requirements_missing_all():
     original_import = builtins.__import__
 
     def import_mock(name, globals=None, locals=None, fromlist=(), level=0):
-        if name in ("psutil", "GPUtil"):
+        if name in ("psutil", "GPUtil", "fpdf"):
             raise ImportError()
         return original_import(name, globals, locals, fromlist, level)
 
     with mock.patch('builtins.__import__', side_effect=import_mock):
-        assert transcriber.check_requirements() == ["psutil", "gputil"]
+        assert transcriber.check_requirements() == ["psutil", "gputil", "fpdf"]
