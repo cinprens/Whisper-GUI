@@ -45,6 +45,8 @@ translations = {
         "no_gpu": "GPU algılanamadı",
         "gpu_load_na": "GPU Yükü: N/A",
         "gpu_mem_na": "GPU Bellek: N/A",
+        "fpdf_missing": "FPDF modülü eksik, PDF kaydetme seçeneği çalışmayacaktır.",
+        "fpdf_error": "FPDF kütüphanesi yüklü mü?",
     },
     "en": {
         "title": "Whisper GUI Transcriber",
@@ -78,6 +80,8 @@ translations = {
         "no_gpu": "No GPU detected",
         "gpu_load_na": "GPU Load: N/A",
         "gpu_mem_na": "GPU Memory: N/A",
+        "fpdf_missing": "FPDF module is missing; saving as PDF will not work.",
+        "fpdf_error": "Is the FPDF library installed?",
     },
 }
 
@@ -130,8 +134,10 @@ def create_main_window():
     
     missing_modules = check_requirements()
     if missing_modules:
-        messagebox.showwarning(lang["warning"], 
-                               ", ".join(missing_modules))
+        warn_msg = ", ".join(missing_modules)
+        if "fpdf" in missing_modules:
+            warn_msg += "\n" + lang["fpdf_missing"]
+        messagebox.showwarning(lang["warning"], warn_msg)
     global selected_file
     selected_file = ""
     global transcribe_thread
@@ -278,8 +284,8 @@ def create_main_window():
         if file_path.endswith(".pdf"):
             try:
                 from fpdf import FPDF
-            except Exception as e:
-                messagebox.showerror("Error", str(e))
+            except Exception:
+                messagebox.showerror("Error", lang["fpdf_error"])
                 return
             pdf = FPDF()
             pdf.add_page()
