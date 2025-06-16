@@ -7,6 +7,11 @@ import os
 import psutil
 import GPUtil
 import logging
+try:
+    import torch
+    GPU_AVAILABLE = torch.cuda.is_available()
+except Exception:
+    GPU_AVAILABLE = False
 from datetime import datetime
 from config import MODEL_LIST
 from transcriber import check_requirements, install_requirements, transcribe
@@ -268,6 +273,8 @@ def create_main_window():
 
     # Transcription Buttons
     transcribe_button = tk.Button(left_frame, text=lang["start_transcription"], command=start_transcription, width=20)
+    if not GPU_AVAILABLE:
+        transcribe_button.config(state=tk.DISABLED)
     transcribe_button.pack(pady=10)
     stop_button = tk.Button(left_frame, text=lang["stop"], command=lambda: stop_event.set(), width=20)
     stop_button.pack(pady=5)
