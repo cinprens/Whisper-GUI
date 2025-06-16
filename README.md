@@ -1,5 +1,29 @@
 # Whisper-GUI
 
+## Quick Start (English)
+Whisper-GUI is a simple interface for transcribing audio files.
+
+**Setup**
+
+1. Download the project as a ZIP file and extract it.
+2. Open a command prompt in the project folder.
+3. Run `pip install -r requirements.txt`.
+4. Run `python main.py`.
+
+The required model will be downloaded automatically the first time you run the program. You can save the results as TXT or PDF files.
+
+## Hızlı Başlangıç (Türkçe)
+Whisper-GUI, ses dosyalarını yazıya dökmek için basit bir arayüzdür.
+
+**Kurulum**
+
+1. Projeyi ZIP olarak indirip klasörü dışarı çıkarın.
+2. Proje klasöründe bir komut penceresi açın.
+3. `pip install -r requirements.txt` komutunu çalıştırın.
+4. `python main.py` komutunu çalıştırın.
+
+Program ilk çalıştığında gerekli modeli indirir. Oluşan çıktıları TXT veya PDF olarak kaydedebilirsiniz.
+
 Bu uygulama ses dosyalarını yazıya döken basit bir arayüz sunar. Projeyi GitHub'dan `Code > Download ZIP` diyerek indirip klasörü dışarı çıkararak başlayabilirsiniz.
 
 🚀 Proje Hedefleri
