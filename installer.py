@@ -40,8 +40,8 @@ def run_installation(log_func, button_widget):
 
             if result.returncode == 0:
                 log_func(f"Successfully installed: {pkg}")
-                module_name = PACKAGE_TO_MODULE.get(pkg, pkg)
-                missing_modules.discard(module_name)
+                if pkg in missing_modules:
+                    missing_modules.remove(pkg)
             else:
                 log_func(f"Failed to install {pkg}: {result.stderr}")
 
