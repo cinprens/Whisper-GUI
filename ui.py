@@ -129,6 +129,9 @@ def create_main_window():
     logger.addHandler(handler)
     
     missing_modules = check_requirements()
+    if missing_modules:
+        messagebox.showwarning(lang["warning"], 
+                               ", ".join(missing_modules))
     global selected_file
     selected_file = ""
     global transcribe_thread
@@ -182,7 +185,7 @@ def create_main_window():
         transcription_area.edit_modified(False)
 
     def install_missing():
-        install_requirements()
+        install_requirements(missing_modules)
         messagebox.showinfo(lang["info"], lang["installation_complete"])
 
     def update_system_info():

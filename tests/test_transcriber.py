@@ -47,3 +47,16 @@ def test_check_requirements_missing_all():
 
     with mock.patch('builtins.__import__', side_effect=import_mock):
         assert transcriber.check_requirements() == ["psutil", "gputil", "fpdf"]
+
+
+def test_install_requirements_installs_only_missing():
+    installed = []
+
+    def fake_run(cmd, capture_output=True, text=True):
+        installed.append(cmd[-1])
+        return mock.MagicMock(returncode=0)
+
+    with mock.patch('subprocess.run', side_effect=fake_run):
+        transcriber.install_requirements(["psutil", "gputil"])
+
+    assert installed == ["psutil", "gputil"]
