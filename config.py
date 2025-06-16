@@ -10,7 +10,8 @@ MODEL_FOLDER = os.path.join(os.path.expanduser("~"), "Desktop", "WhisperPy", "Mo
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
 
 # 🔹 Transkripsiyon klasörü ayarı
-TRANSCRIPT_FOLDER = os.path.join(os.path.expanduser("~"), "Desktop", "WhisperPy", "Transcripts")
+# Proje dizinindeki 'Transkriptasyons' klasörünü kullan
+TRANSCRIPT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Transkriptasyons")
 os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
 
 # 🔹 Kullanılabilir modeller listesi
