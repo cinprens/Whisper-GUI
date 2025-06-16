@@ -49,6 +49,9 @@ def create_main_window():
                     elif msg[0] == "Result":
                         transcription_area.insert(tk.END, msg[1]['text'])
                         update_transcription_char_count()
+                        duration = msg[2]
+                        log_area.insert(tk.END, f"Tamamlanma süresi: {duration:.2f} saniye\n")
+                        log_area.see(tk.END)
         except queue.Empty:
             pass
         root.after(100, check_queue)
