@@ -9,7 +9,7 @@ from huggingface_hub import snapshot_download
 import time  # Eksik import tamamlandı
 from tkinter import messagebox, filedialog
 
-from config import MODEL_FOLDER, MODEL_REQUIREMENTS, HUGGINGFACE_REPOS, HF_TOKEN
+from config import MODEL_FOLDER, MODEL_REQUIREMENTS, HUGGINGFACE_REPOS, HF_TOKEN, MODEL_LIST
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 
@@ -28,13 +28,6 @@ def ensure_model_folder():
             os.makedirs(MODEL_FOLDER, exist_ok=True)
 
 
-MODEL_LIST = [
-    "tiny", "tiny.en",
-    "base", "base.en",
-    "small", "small.en",
-    "medium", "medium.en",
-    "large", "large-v2", "large-v3", "whisper-turbo"
-]
 
 def check_requirements():
     missing_modules = []
