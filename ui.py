@@ -13,7 +13,7 @@ try:
 except Exception:
     GPU_AVAILABLE = False
 from datetime import datetime
-from config import MODEL_LIST, TRANSCRIPT_FOLDER
+from config import MODEL_LIST, TRANSCRIPT_FOLDER, MODEL_REQUIREMENTS
 from transcriber import (
     check_requirements,
     install_requirements,
@@ -61,6 +61,7 @@ translations = {
         "fpdf_error": "FPDF kütüphanesi yüklü mü?",
         "download_model": "Model İndir:",
         "download": "İndir",
+        "model_requirements": "Model Gereksinimleri",
     },
     "en": {
         "title": "Whisper GUI Transcriber",
@@ -99,6 +100,7 @@ translations = {
         "fpdf_error": "Is the FPDF library installed?",
         "download_model": "Download Model:",
         "download": "Download",
+        "model_requirements": "Model Requirements",
     },
 }
 
@@ -163,6 +165,13 @@ def create_main_window():
     stop_event = threading.Event()
     global q
     q = queue.Queue()
+
+    # Requirement info labels will be assigned later
+    req_ram_label = None
+    req_notes_label = None
+    req_size_label = None
+    requirements_frame = None
+    bottom_frame = None
 
     def select_file():
         global selected_file
@@ -242,6 +251,15 @@ def create_main_window():
             gpu_label.config(text=f"Error retrieving system info: {str(e)}")
         root.after(2000, update_system_info)
 
+    def update_requirements(selected_model=None):
+        if req_ram_label is None:
+            return
+        model = selected_model or model_var.get() or download_var.get()
+        req = MODEL_REQUIREMENTS.get(model, {})
+        req_ram_label.config(text=f"RAM: {req.get('ram', 'N/A')}")
+        req_notes_label.config(text=f"Notes: {req.get('notes', 'N/A')}")
+        req_size_label.config(text=f"Size: {req.get('size', 'N/A')}")
+
     # Frames
     left_frame = tk.Frame(root, bg="#1E1E2E")
     left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
@@ -283,6 +301,7 @@ def create_main_window():
     model_var = tk.StringVar(value=installed_models[0] if installed_models else "")
     model_menu = ttk.Combobox(left_frame, textvariable=model_var, values=installed_models, width=18, state="readonly")
     model_menu.pack(pady=5)
+    model_menu.bind("<<ComboboxSelected>>", lambda e: update_requirements(model_var.get()))
 
     download_label = tk.Label(left_frame, text=lang["download_model"], bg="#1E1E2E", fg="white")
     download_label.pack(pady=5)
@@ -290,6 +309,7 @@ def create_main_window():
     download_var = tk.StringVar(value=not_installed[0] if not_installed else "")
     download_menu = ttk.Combobox(left_frame, textvariable=download_var, values=not_installed, width=18, state="readonly")
     download_menu.pack(pady=5)
+    download_menu.bind("<<ComboboxSelected>>", lambda e: update_requirements(download_var.get()))
 
     def refresh_model_lists():
         installed = get_installed_models()
@@ -304,6 +324,7 @@ def create_main_window():
             download_var.set(remaining[0])
         else:
             download_var.set("")
+        update_requirements(model_var.get() if installed else (download_var.get() if remaining else None))
 
     def download_selected_model():
         model = download_var.get()
@@ -380,11 +401,18 @@ def create_main_window():
         right_frame.configure(bg=theme["bg"])
         system_info_frame.configure(bg=theme["bg"], fg=theme["fg"])
 
-        for lbl in [cpu_label, ram_label, gpu_label, gpu_load_label, gpu_mem_label,
+        label_list = [cpu_label, ram_label, gpu_label, gpu_load_label, gpu_mem_label,
                     file_label, model_label, download_label, transcription_label,
-                    char_count_label, log_label, theme_label]:
+                    char_count_label, log_label, theme_label]
+        if req_ram_label is not None:
+            label_list.extend([req_ram_label, req_notes_label, req_size_label])
+        for lbl in label_list:
             lbl.configure(bg=theme["bg"], fg=theme["fg"])
 
+        if bottom_frame is not None:
+            bottom_frame.configure(bg=theme["bg"])
+        if requirements_frame is not None:
+            requirements_frame.configure(bg=theme["bg"], fg=theme["fg"])
         transcription_area.configure(bg=theme["text_bg"], fg=theme["fg"])
         log_area.configure(bg=theme["text_bg"], fg=theme["fg"])
 
@@ -421,6 +449,7 @@ def create_main_window():
         gpu_label.configure(text=lang["gpu_loading"])
         gpu_load_label.configure(text=lang["gpu_load_loading"])
         gpu_mem_label.configure(text=lang["gpu_mem_loading"])
+        requirements_frame.configure(text=lang["model_requirements"])
 
     language_menu.bind("<<ComboboxSelected>>", apply_language)
 
@@ -440,8 +469,22 @@ def create_main_window():
     # Log Area
     log_label = tk.Label(right_frame, text=lang["log"], bg="#1E1E2E", fg="white")
     log_label.pack(anchor="w", pady=(0, 5))
-    log_area = tk.Text(right_frame, height=10, wrap=tk.WORD, bg="#282A36", fg="white")
-    log_area.pack(fill=tk.BOTH, expand=True)
+
+    bottom_frame = tk.Frame(right_frame, bg="#1E1E2E")
+    bottom_frame.pack(fill=tk.BOTH, expand=True)
+
+    log_area = tk.Text(bottom_frame, height=10, wrap=tk.WORD, bg="#282A36", fg="white")
+    log_area.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+    requirements_frame = tk.LabelFrame(bottom_frame, text=translations[language_var.get()]["model_requirements"], bg="#1E1E2E", fg="white", padx=5, pady=5)
+    requirements_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10)
+
+    req_ram_label = tk.Label(requirements_frame, text="")
+    req_ram_label.pack(anchor="w")
+    req_notes_label = tk.Label(requirements_frame, text="")
+    req_notes_label.pack(anchor="w")
+    req_size_label = tk.Label(requirements_frame, text="")
+    req_size_label.pack(anchor="w")
 
     # Logging handler now knows text widget
     handler.text_widget = log_area
@@ -449,6 +492,7 @@ def create_main_window():
     # Varsayilan temayi uygula
     apply_theme()
     apply_language()
+    update_requirements()
 
     # Start System Monitoring
     update_system_info()
