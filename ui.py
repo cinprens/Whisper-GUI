@@ -339,24 +339,19 @@ def create_main_window():
         txt_path = os.path.join(TRANSCRIPT_FOLDER, f"transcription_{timestamp}.txt")
         with open(txt_path, "w", encoding="utf-8") as f:
             f.write(text)
-        pdf_path = ""
-        if messagebox.askyesno(lang["info"], "PDF olarak da kaydedilsin mi?"):
-            try:
-                from fpdf import FPDF
-            except Exception:
-                messagebox.showerror("Error", lang["fpdf_error"])
-            else:
-                pdf_path = os.path.join(TRANSCRIPT_FOLDER, f"transcription_{timestamp}.pdf")
-                pdf = FPDF()
-                pdf.add_page()
-                pdf.set_font("Arial", size=12)
-                for line in text.splitlines():
-                    pdf.cell(0, 10, line, ln=1)
-                pdf.output(pdf_path)
-        info_msg = txt_path
-        if pdf_path:
-            info_msg += f"\n{pdf_path}"
-        messagebox.showinfo(lang["info"], info_msg)
+        pdf_path = os.path.join(TRANSCRIPT_FOLDER, f"transcription_{timestamp}.pdf")
+        try:
+            from fpdf import FPDF
+        except Exception:
+            messagebox.showerror("Error", lang["fpdf_error"])
+        else:
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+            for line in text.splitlines():
+                pdf.cell(0, 10, line, ln=1)
+            pdf.output(pdf_path)
+        messagebox.showinfo(lang["info"], "PDF ve TXT dosyaları program klasörüne kaydedildi")
 
     save_transcription_button = tk.Button(left_frame, text=lang["save_transcription"], command=save_transcription, width=20)
     save_transcription_button.pack(pady=5)
