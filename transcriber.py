@@ -7,7 +7,7 @@ import torch
 import whisper
 import time  # Eksik import tamamlandı
 
-MODEL_FOLDER = r"C:\Users\Mahmut\Desktop\WhisperGUI\WhisperModels"
+from config import MODEL_FOLDER
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 MODEL_LIST = [
