@@ -17,16 +17,8 @@ os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
 MODEL_LIST = [
     "tiny", "tiny.en", "base", "base.en",
     "small", "small.en", "medium", "medium.en",
-    "large", "large-v2", "large-v3", "whisper-turbo"
+    "large", "large-v2", "large-v3"
 ]
-
-# 🔹 HuggingFace depoları
-HUGGINGFACE_REPOS = {
-    "whisper-turbo": "kullanici/whisper-turbo",
-}
-
-# Opsiyonel erişim token'ı
-HF_TOKEN = os.environ.get("HF_TOKEN")
 
 # 🔹 Model gereksinimleri
 MODEL_REQUIREMENTS = {
@@ -83,13 +75,8 @@ MODEL_REQUIREMENTS = {
     "large-v3": {
         "ram": "16GB+",
         "notes": "Newest large model",
-        "size": "3.1GB",
-    },
-    "whisper-turbo": {
-        "ram": "8GB+",
-        "notes": "Optimized for fast transcription",
-        "size": "1GB",
-    },
+        "size": "3.1GB"
+    }
 }
 
 # 🔹 Eksik modülleri kontrol et

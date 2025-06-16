@@ -5,7 +5,6 @@ from unittest import mock
 # imported without installing these packages.
 sys.modules.setdefault('torch', mock.MagicMock())
 sys.modules.setdefault('whisper', mock.MagicMock())
-sys.modules.setdefault('huggingface_hub', mock.MagicMock())
 
 import builtins
 import transcriber
