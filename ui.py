@@ -8,11 +8,28 @@ import psutil
 import GPUtil
 from transcriber import check_requirements, install_requirements, transcribe
 
+# Tema renklerini tutan sozluk
+themes = {
+    "shadow": {
+        "bg": "#1E1E2E",
+        "fg": "white",
+        "text_bg": "#282A36",
+        "progress": "#5A5A5A",
+    },
+    "white": {
+        "bg": "#FFFFFF",
+        "fg": "#000000",
+        "text_bg": "#FFFFFF",
+        "progress": "#007ACC",
+    },
+}
+
 def create_main_window():
     root = tk.Tk()
     root.title("Whisper GUI Transcriber")
     root.geometry("1200x800")
     root.configure(bg="#1E1E2E")
+    style = ttk.Style(root)
     
     missing_modules = check_requirements()
     global selected_file
@@ -149,6 +166,35 @@ def create_main_window():
         install_button = tk.Button(left_frame, text="Install Requirements", command=install_missing, width=20)
         install_button.pack(pady=10)
 
+    # Tema Secimi
+    theme_label = tk.Label(left_frame, text="Theme:", bg="#1E1E2E", fg="white")
+    theme_label.pack(pady=5)
+    theme_var = tk.StringVar(value="shadow")
+    theme_menu = ttk.Combobox(left_frame, textvariable=theme_var, values=list(themes.keys()), width=18, state="readonly")
+    theme_menu.pack(pady=5)
+
+    def apply_theme(event=None):
+        theme = themes[theme_var.get()]
+        root.configure(bg=theme["bg"])
+        left_frame.configure(bg=theme["bg"])
+        right_frame.configure(bg=theme["bg"])
+        system_info_frame.configure(bg=theme["bg"], fg=theme["fg"])
+
+        for lbl in [cpu_label, ram_label, gpu_label, gpu_load_label, gpu_mem_label,
+                    file_label, model_label, transcription_label, char_count_label,
+                    log_label, theme_label]:
+            lbl.configure(bg=theme["bg"], fg=theme["fg"])
+
+        transcription_area.configure(bg=theme["text_bg"], fg=theme["fg"])
+        log_area.configure(bg=theme["text_bg"], fg=theme["fg"])
+
+        style.configure("Custom.Horizontal.TProgressbar",
+                        troughcolor=theme["bg"], background=theme["progress"])
+        for bar in [cpu_bar, ram_bar, gpu_load_bar, gpu_mem_bar]:
+            bar.configure(style="Custom.Horizontal.TProgressbar")
+
+    theme_menu.bind("<<ComboboxSelected>>", apply_theme)
+
     # Transcription Area
     right_frame = tk.Frame(root, bg="#1E1E2E")
     right_frame.pack(side=tk.RIGHT, expand=True, fill=tk.BOTH, padx=10, pady=10)
@@ -168,7 +214,10 @@ def create_main_window():
     log_area = tk.Text(right_frame, height=10, wrap=tk.WORD, bg="#282A36", fg="white")
     log_area.pack(fill=tk.BOTH, expand=True)
 
+    # Varsayilan temayi uygula
+    apply_theme()
+
     # Start System Monitoring
     update_system_info()
-    
+
     return root
