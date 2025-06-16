@@ -27,6 +27,17 @@ def ensure_model_folder():
             os.makedirs(MODEL_FOLDER, exist_ok=True)
 
 
+def get_installed_models():
+    """MODEL_FOLDER içindeki .pt veya .bin uzantılı dosyalardan model adlarını döndür."""
+    models = []
+    if os.path.isdir(MODEL_FOLDER):
+        for fname in os.listdir(MODEL_FOLDER):
+            base, ext = os.path.splitext(fname)
+            if ext in {".pt", ".bin"}:
+                models.append(base)
+    return models
+
+
 
 def check_requirements():
     missing_modules = []

@@ -84,3 +84,13 @@ def test_create_main_window_missing_warning():
         args, _ = mock_warn.call_args
         assert 'psutil' in args[1]
         assert 'fpdf' in args[1]
+
+
+def test_get_installed_models(tmp_path, monkeypatch):
+    monkeypatch.setattr(transcriber, 'MODEL_FOLDER', str(tmp_path))
+    (tmp_path / 'base.pt').touch()
+    (tmp_path / 'medium.bin').touch()
+    (tmp_path / 'readme.txt').touch()
+
+    models = transcriber.get_installed_models()
+    assert sorted(models) == ['base', 'medium']
