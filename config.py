@@ -61,6 +61,11 @@ MODEL_REQUIREMENTS = {
         "notes": "Medium model",
         "size": "1.5GB",
     },
+    "medium.en": {
+        "ram": "8GB+",
+        "notes": "English-only version",
+        "size": "1.5GB",
+    },
     "large": {
         "ram": "12GB+",
         "notes": "Large model",
@@ -74,7 +79,7 @@ MODEL_REQUIREMENTS = {
     "large-v3": {
         "ram": "16GB+",
         "notes": "Newest large model",
-        "size": "2.9GB",
+        "size": "3.1GB",
     },
     "whisper-turbo": {
         "ram": "8GB+",
