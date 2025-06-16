@@ -72,7 +72,7 @@ def run_transcription(q, stop_evt, model_name, audio_file):
             size = MODEL_REQUIREMENTS.get(model_name, {}).get("size", "bilinmiyor")
             if not messagebox.askyesno(
                 "Eksik Model",
-                f"{model_name} modeli (~{size}) indirilecek. Onaylıyor musunuz?",
+                f"{model_name} modeli (yaklaşık {size}) indirilecek. Onaylıyor musunuz?",
             ):
                 q.put(("Warning", f"Model dosyasi bulunamadi: {model_name}."))
                 return
