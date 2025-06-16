@@ -73,7 +73,7 @@ def run_transcription(q, stop_evt, model_name, audio_file):
             q.put(("StoppedBeforeTranscribe", None))
             return
         
-        q.put("Model loaded. Starting transcription...")
+        q.put(("Log", "Model loaded. Starting transcription..."))
         result = model.transcribe(audio_file)
         
         if stop_evt.is_set():
