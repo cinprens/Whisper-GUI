@@ -14,7 +14,13 @@ except Exception:
     GPU_AVAILABLE = False
 from datetime import datetime
 from config import MODEL_LIST, TRANSCRIPT_FOLDER
-from transcriber import check_requirements, install_requirements, transcribe
+from transcriber import (
+    check_requirements,
+    install_requirements,
+    transcribe,
+    get_installed_models,
+    download_model,
+)
 
 # Dil cevirileri
 translations = {
@@ -53,6 +59,8 @@ translations = {
         "gpu_mem_na": "GPU Bellek: N/A",
         "fpdf_missing": "FPDF modülü eksik, PDF kaydetme seçeneği çalışmayacaktır.",
         "fpdf_error": "FPDF kütüphanesi yüklü mü?",
+        "download_model": "Model İndir:",
+        "download": "İndir",
     },
     "en": {
         "title": "Whisper GUI Transcriber",
@@ -89,6 +97,8 @@ translations = {
         "gpu_mem_na": "GPU Memory: N/A",
         "fpdf_missing": "FPDF module is missing; saving as PDF will not work.",
         "fpdf_error": "Is the FPDF library installed?",
+        "download_model": "Download Model:",
+        "download": "Download",
     },
 }
 
@@ -267,11 +277,51 @@ def create_main_window():
     file_label.pack(pady=5)
 
     # Model Selection
+    installed_models = get_installed_models()
     model_label = tk.Label(left_frame, text=lang["select_model"], bg="#1E1E2E", fg="white")
     model_label.pack(pady=5)
-    model_var = tk.StringVar(value="base")
-    model_menu = ttk.Combobox(left_frame, textvariable=model_var, values=MODEL_LIST, width=18, state="readonly")
+    model_var = tk.StringVar(value=installed_models[0] if installed_models else "")
+    model_menu = ttk.Combobox(left_frame, textvariable=model_var, values=installed_models, width=18, state="readonly")
     model_menu.pack(pady=5)
+
+    download_label = tk.Label(left_frame, text=lang["download_model"], bg="#1E1E2E", fg="white")
+    download_label.pack(pady=5)
+    not_installed = [m for m in MODEL_LIST if m not in installed_models]
+    download_var = tk.StringVar(value=not_installed[0] if not_installed else "")
+    download_menu = ttk.Combobox(left_frame, textvariable=download_var, values=not_installed, width=18, state="readonly")
+    download_menu.pack(pady=5)
+
+    def refresh_model_lists():
+        installed = get_installed_models()
+        model_menu['values'] = installed
+        if installed:
+            model_var.set(installed[0])
+        else:
+            model_var.set("")
+        remaining = [m for m in MODEL_LIST if m not in installed]
+        download_menu['values'] = remaining
+        if remaining:
+            download_var.set(remaining[0])
+        else:
+            download_var.set("")
+
+    def download_selected_model():
+        model = download_var.get()
+        if not model:
+            return
+        def worker():
+            logging.info(f"Downloading model: {model}")
+            try:
+                download_model(model)
+                logging.info(f"Model downloaded: {model}")
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+            refresh_model_lists()
+        threading.Thread(target=worker, daemon=True).start()
+
+    download_button = tk.Button(left_frame, text=lang["download"], command=download_selected_model, width=20)
+    download_button.pack(pady=5)
+    refresh_model_lists()
 
     # Transcription Buttons
     transcribe_button = tk.Button(left_frame, text=lang["start_transcription"], command=start_transcription, width=20)
@@ -336,8 +386,8 @@ def create_main_window():
         system_info_frame.configure(bg=theme["bg"], fg=theme["fg"])
 
         for lbl in [cpu_label, ram_label, gpu_label, gpu_load_label, gpu_mem_label,
-                    file_label, model_label, transcription_label, char_count_label,
-                    log_label, theme_label]:
+                    file_label, model_label, download_label, transcription_label,
+                    char_count_label, log_label, theme_label]:
             lbl.configure(bg=theme["bg"], fg=theme["fg"])
 
         transcription_area.configure(bg=theme["text_bg"], fg=theme["fg"])
@@ -359,6 +409,8 @@ def create_main_window():
         if not selected_file:
             file_label.configure(text=lang["no_file_selected"])
         model_label.configure(text=lang["select_model"])
+        download_label.configure(text=lang["download_model"])
+        download_button.configure(text=lang["download"])
         transcribe_button.configure(text=lang["start_transcription"])
         stop_button.configure(text=lang["stop"])
         save_transcription_button.configure(text=lang["save_transcription"])
