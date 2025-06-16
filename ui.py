@@ -66,15 +66,29 @@ def create_main_window():
         try:
             cpu_usage = psutil.cpu_percent()
             ram_usage = psutil.virtual_memory().percent
+
+            cpu_label.config(text=f"CPU Usage: {cpu_usage:.1f}%")
+            cpu_bar['value'] = cpu_usage
+
+            ram_label.config(text=f"RAM Usage: {ram_usage:.1f}%")
+            ram_bar['value'] = ram_usage
+
             gpus = GPUtil.getGPUs()
-            gpu_info = "No GPU detected"
             if gpus:
                 gpu = gpus[0]
-                gpu_info = f"GPU: {gpu.name}\nGPU Load: {gpu.load * 100:.1f}%\nGPU Memory: {gpu.memoryUsed:.1f}/{gpu.memoryTotal:.1f} MB"
-            
-            cpu_label.config(text=f"CPU Usage: {cpu_usage:.1f}%")
-            ram_label.config(text=f"RAM Usage: {ram_usage:.1f}%")
-            gpu_label.config(text=gpu_info)
+                gpu_label.config(text=f"GPU: {gpu.name}")
+                gpu_load = gpu.load * 100
+                gpu_mem = (gpu.memoryUsed / gpu.memoryTotal) * 100 if gpu.memoryTotal else 0
+                gpu_load_label.config(text=f"GPU Load: {gpu_load:.1f}%")
+                gpu_load_bar['value'] = gpu_load
+                gpu_mem_label.config(text=f"GPU Memory: {gpu.memoryUsed:.1f}/{gpu.memoryTotal:.1f} MB")
+                gpu_mem_bar['value'] = gpu_mem
+            else:
+                gpu_label.config(text="No GPU detected")
+                gpu_load_label.config(text="GPU Load: N/A")
+                gpu_load_bar['value'] = 0
+                gpu_mem_label.config(text="GPU Memory: N/A")
+                gpu_mem_bar['value'] = 0
         except Exception as e:
             gpu_label.config(text=f"Error retrieving system info: {str(e)}")
         root.after(2000, update_system_info)
@@ -87,11 +101,25 @@ def create_main_window():
     system_info_frame.pack(fill=tk.X, padx=5, pady=5)
 
     cpu_label = tk.Label(system_info_frame, text="CPU Usage: Loading...", bg="#1E1E2E", fg="white")
-    cpu_label.pack()
+    cpu_label.pack(anchor="w")
+    cpu_bar = ttk.Progressbar(system_info_frame, orient="horizontal", length=180, mode="determinate")
+    cpu_bar.pack(fill=tk.X, pady=(0, 5))
+
     ram_label = tk.Label(system_info_frame, text="RAM Usage: Loading...", bg="#1E1E2E", fg="white")
-    ram_label.pack()
+    ram_label.pack(anchor="w")
+    ram_bar = ttk.Progressbar(system_info_frame, orient="horizontal", length=180, mode="determinate")
+    ram_bar.pack(fill=tk.X, pady=(0, 5))
+
     gpu_label = tk.Label(system_info_frame, text="GPU: Loading...", bg="#1E1E2E", fg="white")
-    gpu_label.pack()
+    gpu_label.pack(anchor="w")
+    gpu_load_label = tk.Label(system_info_frame, text="GPU Load: Loading...", bg="#1E1E2E", fg="white")
+    gpu_load_label.pack(anchor="w")
+    gpu_load_bar = ttk.Progressbar(system_info_frame, orient="horizontal", length=180, mode="determinate")
+    gpu_load_bar.pack(fill=tk.X, pady=(0, 5))
+    gpu_mem_label = tk.Label(system_info_frame, text="GPU Memory: Loading...", bg="#1E1E2E", fg="white")
+    gpu_mem_label.pack(anchor="w")
+    gpu_mem_bar = ttk.Progressbar(system_info_frame, orient="horizontal", length=180, mode="determinate")
+    gpu_mem_bar.pack(fill=tk.X, pady=(0, 5))
 
     # File Selection
     file_button = tk.Button(left_frame, text="Select File", command=select_file, width=20)
