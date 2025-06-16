@@ -59,7 +59,15 @@ def test_install_requirements_installs_only_missing():
         installed.append(cmd[-1])
         return mock.MagicMock(returncode=0)
 
-    with mock.patch('subprocess.run', side_effect=fake_run):
+    original_import = builtins.__import__
+
+    def import_mock(name, globals=None, locals=None, fromlist=(), level=0):
+        if name in ("psutil", "GPUtil"):
+            raise ImportError()
+        return original_import(name, globals, locals, fromlist, level)
+
+    with mock.patch('subprocess.run', side_effect=fake_run), \
+         mock.patch('builtins.__import__', side_effect=import_mock):
         transcriber.install_requirements(["psutil", "gputil"])
 
     assert installed == ["psutil", "gputil"]
