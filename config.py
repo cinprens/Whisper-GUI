@@ -6,7 +6,8 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", message="FP16 is not supported on CPU; using FP32 instead")
 
 # 🔹 Model klasörü ayarı
-MODEL_FOLDER = os.path.join(os.path.expanduser("~"), "Desktop", "WhisperPy", "Models")
+# Uygulama dizini altındaki 'WhisperModels' klasörünü kullan
+MODEL_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "WhisperModels")
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
 
 # 🔹 Transkripsiyon klasörü ayarı
