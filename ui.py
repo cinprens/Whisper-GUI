@@ -373,10 +373,11 @@ def create_main_window():
             messagebox.showerror("Error", lang["fpdf_error"])
             return
         pdf = FPDF()
+        pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
         pdf.set_font("Arial", size=12)
         for line in text.splitlines():
-            pdf.cell(0, 10, line, ln=1)
+            pdf.multi_cell(0, 10, line)
         pdf.output(pdf_path)
         messagebox.showinfo(lang["info"], "PDF ve TXT dosyaları program klasörüne kaydedildi")
 
