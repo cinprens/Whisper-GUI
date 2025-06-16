@@ -134,7 +134,7 @@ class TextHandler(logging.Handler):
 
 def create_main_window():
     root = tk.Tk()
-    language_var = tk.StringVar(value="tr")
+    language_var = tk.StringVar(value="en")
     lang = translations[language_var.get()]
     root.title(lang["title"])
     root.geometry("1200x800")
