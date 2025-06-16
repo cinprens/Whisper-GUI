@@ -46,10 +46,19 @@ def check_requirements():
     return missing_modules
 
 def install_requirements(packages=None):
-    """Install only the given packages or the ones returned by check_requirements."""
+    """Install only the given packages that are actually missing."""
     if packages is None:
         packages = check_requirements()
+
+    missing = []
     for pkg in packages:
+        module_name = pkg if pkg.lower() != "gputil" else "GPUtil"
+        try:
+            __import__(module_name)
+        except ImportError:
+            missing.append(pkg)
+
+    for pkg in missing:
         subprocess.run([
             sys.executable,
             "-m",
