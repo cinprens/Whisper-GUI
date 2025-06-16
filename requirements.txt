@@ -1,5 +1,4 @@
 openai-whisper
 torch
 psutil
-gputil
 fpdf
