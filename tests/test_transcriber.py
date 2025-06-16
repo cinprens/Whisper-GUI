@@ -5,9 +5,13 @@ from unittest import mock
 # imported without installing these packages.
 sys.modules.setdefault('torch', mock.MagicMock())
 sys.modules.setdefault('whisper', mock.MagicMock())
+sys.modules.setdefault('psutil', mock.MagicMock())
+sys.modules.setdefault('GPUtil', mock.MagicMock())
+sys.modules.setdefault('fpdf', mock.MagicMock())
 
 import builtins
 import transcriber
+import ui
 
 
 def test_check_requirements_all_present():
@@ -59,3 +63,24 @@ def test_install_requirements_installs_only_missing():
         transcriber.install_requirements(["psutil", "gputil"])
 
     assert installed == ["psutil", "gputil"]
+
+
+def test_create_main_window_missing_warning():
+    dummy = mock.MagicMock()
+
+    def stringvar_side_effect(*args, **kwargs):
+        m = mock.MagicMock()
+        m.get.return_value = kwargs.get('value')
+        return m
+
+    dummy.StringVar.side_effect = stringvar_side_effect
+    with mock.patch('ui.tk', dummy), \
+         mock.patch('ui.ttk', dummy), \
+         mock.patch('ui.filedialog', dummy), \
+         mock.patch('ui.check_requirements', return_value=['psutil', 'fpdf']), \
+         mock.patch('ui.messagebox.showwarning') as mock_warn:
+        ui.create_main_window()
+        mock_warn.assert_called_once()
+        args, _ = mock_warn.call_args
+        assert 'psutil' in args[1]
+        assert 'fpdf' in args[1]

@@ -34,6 +34,7 @@ translations = {
         "character_count": "Karakter Sayısı: {count}",
         "log": "Log:",
         "warning": "Uyarı",
+        "missing_packages": "Eksik paketler: {packages}",
         "please_select_file": "Lütfen bir dosya seçin.",
         "installation_complete": "Kurulum tamamlandı. Uygulamayı yeniden başlatın.",
         "info": "Bilgi",
@@ -69,6 +70,7 @@ translations = {
         "character_count": "Character Count: {count}",
         "log": "Log:",
         "warning": "Warning",
+        "missing_packages": "Missing packages: {packages}",
         "please_select_file": "Please select a file.",
         "installation_complete": "Installation complete. Restart the application.",
         "info": "Info",
@@ -139,7 +141,7 @@ def create_main_window():
     
     missing_modules = check_requirements()
     if missing_modules:
-        warn_msg = ", ".join(missing_modules)
+        warn_msg = lang["missing_packages"].format(packages=", ".join(missing_modules))
         if "fpdf" in missing_modules:
             warn_msg += "\n" + lang["fpdf_missing"]
         messagebox.showwarning(lang["warning"], warn_msg)
