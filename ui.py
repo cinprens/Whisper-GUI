@@ -8,6 +8,7 @@ import psutil
 import GPUtil
 import logging
 from datetime import datetime
+from config import MODEL_LIST
 from transcriber import check_requirements, install_requirements, transcribe
 
 # Dil cevirileri
@@ -253,7 +254,7 @@ def create_main_window():
     model_label = tk.Label(left_frame, text=lang["select_model"], bg="#1E1E2E", fg="white")
     model_label.pack(pady=5)
     model_var = tk.StringVar(value="base")
-    model_menu = ttk.Combobox(left_frame, textvariable=model_var, values=["tiny", "base", "small", "medium", "large", "large-v2", "large-v3", "whisper-turbo"], width=18, state="readonly")
+    model_menu = ttk.Combobox(left_frame, textvariable=model_var, values=MODEL_LIST, width=18, state="readonly")
     model_menu.pack(pady=5)
 
     # Transcription Buttons
