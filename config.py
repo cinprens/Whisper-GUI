@@ -16,6 +16,14 @@ MODEL_LIST = [
     "large", "large-v2", "large-v3", "whisper-turbo"
 ]
 
+# 🔹 HuggingFace depoları
+HUGGINGFACE_REPOS = {
+    "whisper-turbo": "kullanici/whisper-turbo",
+}
+
+# Opsiyonel erişim token'ı
+HF_TOKEN = os.environ.get("HF_TOKEN")
+
 # 🔹 Model gereksinimleri
 MODEL_REQUIREMENTS = {
     "tiny": {
