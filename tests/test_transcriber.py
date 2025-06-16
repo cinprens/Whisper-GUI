@@ -103,3 +103,23 @@ def test_download_model_uses_load_model(monkeypatch):
     monkeypatch.setattr(transcriber, 'filedialog', mock.MagicMock())
     transcriber.download_model('base')
     mock_load.assert_called_once_with('base', device='cpu', download_root=transcriber.MODEL_FOLDER)
+
+def test_get_installed_models_empty(monkeypatch, tmp_path):
+    monkeypatch.setattr(transcriber, 'MODEL_FOLDER', str(tmp_path))
+    models = transcriber.get_installed_models()
+    assert models == []
+
+
+def test_run_transcription_warns_when_model_missing(monkeypatch, tmp_path):
+    q = transcriber.queue.Queue()
+    stop_event = transcriber.threading.Event()
+    mock_cuda = mock.MagicMock()
+    mock_cuda.is_available.return_value = True
+    monkeypatch.setattr(transcriber.torch, 'cuda', mock_cuda)
+    monkeypatch.setattr(transcriber, 'MODEL_FOLDER', str(tmp_path))
+    monkeypatch.setattr(transcriber.os.path, 'isfile', lambda path: False)
+
+    transcriber.run_transcription(q, stop_event, 'base', tmp_path / 'audio.mp3')
+    message = q.get_nowait()
+    assert message[0] == 'Warning'
+    assert 'Model bulunamadı' in message[1]
