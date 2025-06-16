@@ -45,7 +45,7 @@ Make sure you have Python 3.10+ installed.
 Verify that FFmpeg is installed and added to your system PATH.
 
 Open a terminal in the project folder:
-cd WhisperTranscriberProject
+cd Whisper-GUI
 
 
 If you lack the required packages (e.g., first time user), use the “Install Requirements” button in the app or run:
