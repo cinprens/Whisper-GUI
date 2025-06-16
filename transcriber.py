@@ -79,13 +79,8 @@ def run_transcription(q, stop_evt, model_name, audio_file):
         model_file_bin = os.path.join(MODEL_FOLDER, f"{model_name}.bin")
 
         if not (os.path.isfile(model_file_pt) or os.path.isfile(model_file_bin)):
-            size = MODEL_REQUIREMENTS.get(model_name, {}).get("size", "bilinmiyor")
-            if not messagebox.askyesno(
-                "Eksik Model",
-                f"{model_name} modeli (yaklaşık {size}) indirilecek. Onaylıyor musunuz?",
-            ):
-                q.put(("Warning", f"Model dosyasi bulunamadi: {model_name}."))
-                return
+            q.put(("Warning", "Model bulunamadı, lütfen önce indirin."))
+            return
 
         model = whisper.load_model(model_name, device=device, download_root=MODEL_FOLDER)
         
