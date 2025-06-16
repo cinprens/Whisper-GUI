@@ -371,13 +371,13 @@ def create_main_window():
             from fpdf import FPDF
         except Exception:
             messagebox.showerror("Error", lang["fpdf_error"])
-        else:
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_font("Arial", size=12)
-            for line in text.splitlines():
-                pdf.cell(0, 10, line, ln=1)
-            pdf.output(pdf_path)
+            return
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        for line in text.splitlines():
+            pdf.cell(0, 10, line, ln=1)
+        pdf.output(pdf_path)
         messagebox.showinfo(lang["info"], "PDF ve TXT dosyaları program klasörüne kaydedildi")
 
     save_transcription_button = tk.Button(left_frame, text=lang["save_transcription"], command=save_transcription, width=20)
