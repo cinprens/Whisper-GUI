@@ -116,3 +116,9 @@ def transcribe(q, stop_event, model_name, selected_file):
         args=(q, stop_event, model_name, selected_file),
         daemon=True
     ).start()
+
+
+def download_model(model_name):
+    """Download the given Whisper model to MODEL_FOLDER."""
+    ensure_model_folder()
+    whisper.load_model(model_name, device="cpu", download_root=MODEL_FOLDER)

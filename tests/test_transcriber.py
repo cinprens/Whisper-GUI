@@ -94,3 +94,12 @@ def test_get_installed_models(tmp_path, monkeypatch):
 
     models = transcriber.get_installed_models()
     assert sorted(models) == ['base', 'medium']
+
+
+def test_download_model_uses_load_model(monkeypatch):
+    mock_load = mock.MagicMock()
+    monkeypatch.setattr(transcriber, 'whisper', mock.MagicMock(load_model=mock_load))
+    monkeypatch.setattr(transcriber, 'messagebox', mock.MagicMock(askyesno=mock.MagicMock(return_value=False)))
+    monkeypatch.setattr(transcriber, 'filedialog', mock.MagicMock())
+    transcriber.download_model('base')
+    mock_load.assert_called_once_with('base', device='cpu', download_root=transcriber.MODEL_FOLDER)
