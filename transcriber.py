@@ -46,10 +46,14 @@ def check_requirements():
         import GPUtil
     except ImportError:
         missing_modules.append("gputil")
+    try:
+        import fpdf
+    except ImportError:
+        missing_modules.append("fpdf")
     return missing_modules
 
 def install_requirements():
-    packages = ["openai-whisper", "torch", "psutil", "gputil"]
+    packages = ["openai-whisper", "torch", "psutil", "gputil", "fpdf"]
     for pkg in packages:
         subprocess.run([sys.executable, "-m", "pip", "install", pkg], capture_output=True, text=True)
 
