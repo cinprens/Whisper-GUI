@@ -9,7 +9,7 @@ from huggingface_hub import snapshot_download
 import time  # Eksik import tamamlandı
 from tkinter import messagebox, filedialog
 
-from config import MODEL_FOLDER, MODEL_REQUIREMENTS
+from config import MODEL_FOLDER, MODEL_REQUIREMENTS, HUGGINGFACE_REPOS, HF_TOKEN
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 
@@ -77,12 +77,22 @@ def run_transcription(q, stop_evt, model_name, audio_file):
                 return
 
         if model_name == "whisper-turbo":
-            repo_id = "whisper-turbo"
-            model_path = snapshot_download(
+            repo_id = HUGGINGFACE_REPOS.get(model_name)
+            if not repo_id:
+                q.put(("Error", f"'{model_name}' modeli icin repo bulunamadi."))
+                return
+            download_args = dict(
                 repo_id=repo_id,
                 local_dir=MODEL_FOLDER,
                 local_dir_use_symlinks=False,
             )
+            if HF_TOKEN:
+                download_args["token"] = HF_TOKEN
+            try:
+                model_path = snapshot_download(**download_args)
+            except Exception as e:
+                q.put(("Error", f"Repo indirilemedi: {e}"))
+                return
             model = whisper.load_model(model_path, device=device)
         else:
             model = whisper.load_model(model_name, device=device, download_root=MODEL_FOLDER)
