@@ -5,6 +5,7 @@ import threading
 import subprocess
 import torch
 import whisper
+from huggingface_hub import snapshot_download
 import time  # Eksik import tamamlandı
 from tkinter import messagebox, filedialog
 
@@ -67,7 +68,16 @@ def run_transcription(q, stop_evt, model_name, audio_file):
                 q.put(("Warning", f"Model dosyasi bulunamadi: {model_name}."))
                 return
 
-        model = whisper.load_model(model_name, device=device, download_root=MODEL_FOLDER)
+        if model_name == "whisper-turbo":
+            repo_id = "whisper-turbo"
+            model_path = snapshot_download(
+                repo_id=repo_id,
+                local_dir=MODEL_FOLDER,
+                local_dir_use_symlinks=False,
+            )
+            model = whisper.load_model(model_path, device=device)
+        else:
+            model = whisper.load_model(model_name, device=device, download_root=MODEL_FOLDER)
         
         if stop_evt.is_set():
             q.put(("StoppedBeforeTranscribe", None))
