@@ -10,6 +10,7 @@ PACKAGE_TO_MODULE = {
     "torch": "torch",
     "psutil": "psutil",
     "gputil": "GPUtil",
+    "fpdf": "fpdf",
 }
 
 def install_requirements(log_func, button_widget):
@@ -26,7 +27,7 @@ def install_requirements(log_func, button_widget):
 
 def run_installation(log_func, button_widget):
     try:
-        packages = ["openai-whisper", "torch", "psutil", "gputil"]
+        packages = ["openai-whisper", "torch", "psutil", "gputil", "fpdf"]
 
         for pkg in packages:
             log_func(f"Installing: {pkg}")

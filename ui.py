@@ -6,6 +6,7 @@ import queue
 import os
 import psutil
 import GPUtil
+from fpdf import FPDF
 from transcriber import check_requirements, install_requirements, transcribe
 
 def create_main_window():
@@ -59,6 +60,33 @@ def create_main_window():
         text_content = transcription_area.get("1.0", tk.END).strip()
         char_count_label.config(text=f"Character Count: {len(text_content)}")
         transcription_area.edit_modified(False)
+
+    def save_transcription():
+        text = transcription_area.get("1.0", tk.END).strip()
+        if not text:
+            messagebox.showwarning("Uyarı", "Kaydedilecek bir transkripsiyon yok.")
+            return
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".txt",
+            filetypes=[("Text files", "*.txt"), ("PDF files", "*.pdf")]
+        )
+        if not file_path:
+            return
+        try:
+            if file_path.lower().endswith(".pdf"):
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.set_auto_page_break(auto=True, margin=15)
+                pdf.set_font("Arial", size=12)
+                for line in text.splitlines():
+                    pdf.multi_cell(0, 10, line)
+                pdf.output(file_path)
+            else:
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write(text)
+            messagebox.showinfo("Bilgi", f"Dosya kaydedildi:\n{file_path}")
+        except Exception as e:
+            messagebox.showerror("Hata", f"Dosya kaydedilemedi: {e}")
 
     def install_missing():
         install_requirements()
@@ -141,7 +169,7 @@ def create_main_window():
     transcribe_button.pack(pady=10)
     stop_button = tk.Button(left_frame, text="Stop", command=lambda: stop_event.set(), width=20)
     stop_button.pack(pady=5)
-    save_transcription_button = tk.Button(left_frame, text="Save Transcription", width=20)
+    save_transcription_button = tk.Button(left_frame, text="Save Transcription", command=save_transcription, width=20)
     save_transcription_button.pack(pady=5)
 
     # Install Button
