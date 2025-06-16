@@ -47,37 +47,37 @@ MODEL_REQUIREMENTS = {
     "small": {
         "ram": "5GB+",
         "notes": "Smaller, higher accuracy",
-        "size": "492MB",
+        "size": "1GB",
     },
     "small.en": {
         "ram": "6GB+",
         "notes": "English-only version",
-        "size": "492MB",
+        "size": "1GB",
     },
     "medium": {
         "ram": "8GB+",
         "notes": "Medium model",
-        "size": "1.5GB",
+        "size": "2.9GB",
     },
     "medium.en": {
         "ram": "8GB+",
         "notes": "English-only version",
-        "size": "1.5GB",
+        "size": "2.9GB",
     },
     "large": {
         "ram": "12GB+",
         "notes": "Large model",
-        "size": "2.9GB",
+        "size": "5.8GB",
     },
     "large-v2": {
         "ram": "15GB+",
         "notes": "Latest large model",
-        "size": "2.9GB",
+        "size": "5.8GB",
     },
     "large-v3": {
         "ram": "16GB+",
         "notes": "Newest large model",
-        "size": "3.1GB"
+        "size": "6.2GB"
     }
 }
 

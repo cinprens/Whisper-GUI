@@ -330,6 +330,12 @@ def create_main_window():
         model = download_var.get()
         if not model:
             return
+        size = MODEL_REQUIREMENTS.get(model, {}).get("size", "N/A")
+        if not messagebox.askyesno(
+            "Onay",
+            f"'{model}' modeli (~{size}) indirilecek. Onaylıyor musunuz?",
+        ):
+            return
         def worker():
             logging.info(f"Downloading model: {model}")
             try:
