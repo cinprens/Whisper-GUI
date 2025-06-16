@@ -2,7 +2,7 @@ Hello there! I'm an entry-level developer, and I'd like to share my exciting Tra
 
 🚀 Project Goals
 Convert audio files (mp3, mp4, wav, etc.) into text transcriptions.
-Use Google Translate to translate the generated text into multiple languages.
+Translate the generated text into multiple languages.
 Enable GPU (CUDA) acceleration for faster transcription and translation.
 Provide a Python GUI for ease of use and real-time system monitoring.
 Show CPU, RAM, and GPU usage (if available) in real time.
@@ -12,7 +12,7 @@ Display total character counts and detailed logs.
 
 🌟 Key Features
 OpenAI's Whisper for audio-to-text transcription.
-Google Translate integration for multi-language support.
+Built-in translation feature for multi-language support.
 GPU (CUDA) acceleration for processing larger audio files faster.
 Real-time system stats and log outputs in the GUI.
 Option to save transcriptions and translations as .txt.
@@ -26,7 +26,7 @@ In-app automatic installation for missing libraries.
 Python 3.10+
 pip package manager
 FFmpeg (A must-have for handling various audio/video formats! Download & install)
-openai-whisper, torch, psutil, GPUtil, googletrans (install in-app or via pip)
+openai-whisper, torch, psutil, GPUtil (install in-app or via pip)
 
 
 
@@ -51,7 +51,7 @@ cd Whisper-GUI
 
 If you lack the required packages (e.g., first time user), use the “Install Requirements” button in the app or run:
 
-pip install openai-whisper torch psutil GPUtil googletrans==4.0.0-rc1
+pip install openai-whisper torch psutil GPUtil
 
 In the GUI, select an audio file, choose a model, click “Start Transcription,” then use “Translate” to get text in your preferred language!
 🎉 Contribute
