@@ -9,7 +9,7 @@ from huggingface_hub import snapshot_download
 import time  # Eksik import tamamlandı
 from tkinter import messagebox, filedialog
 
-from config import MODEL_FOLDER
+from config import MODEL_FOLDER, MODEL_REQUIREMENTS
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 
@@ -68,7 +68,11 @@ def run_transcription(q, stop_evt, model_name, audio_file):
         model_file_bin = os.path.join(MODEL_FOLDER, f"{model_name}.bin")
 
         if not (os.path.isfile(model_file_pt) or os.path.isfile(model_file_bin)):
-            if not messagebox.askyesno("Eksik Model", "Model indirilsin mi?"):
+            size = MODEL_REQUIREMENTS.get(model_name, {}).get("size", "bilinmiyor")
+            if not messagebox.askyesno(
+                "Eksik Model",
+                f"{model_name} modeli (~{size}) indirilecek. Onaylıyor musunuz?",
+            ):
                 q.put(("Warning", f"Model dosyasi bulunamadi: {model_name}."))
                 return
 

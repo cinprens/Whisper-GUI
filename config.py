@@ -18,17 +18,61 @@ MODEL_LIST = [
 
 # 🔹 Model gereksinimleri
 MODEL_REQUIREMENTS = {
-    "tiny":       {"ram": "2GB+",  "notes": "Fast, lower accuracy"},
-    "tiny.en":    {"ram": "2GB+",  "notes": "English-only version"},
-    "base":       {"ram": "4GB+",  "notes": "Base model"},
-    "base.en":    {"ram": "4GB+",  "notes": "English-only version"},
-    "small":      {"ram": "5GB+",  "notes": "Smaller, higher accuracy"},
-    "small.en":   {"ram": "6GB+",  "notes": "English-only version"},
-    "medium":     {"ram": "8GB+",  "notes": "Medium model"},
-    "large":      {"ram": "12GB+", "notes": "Large model"},
-    "large-v2":   {"ram": "15GB+", "notes": "Latest large model"},
-    "large-v3":   {"ram": "16GB+", "notes": "Newest large model"},
-    "whisper-turbo": {"ram": "8GB+", "notes": "Optimized for fast transcription"}
+    "tiny": {
+        "ram": "2GB+",
+        "notes": "Fast, lower accuracy",
+        "size": "152MB",
+    },
+    "tiny.en": {
+        "ram": "2GB+",
+        "notes": "English-only version",
+        "size": "152MB",
+    },
+    "base": {
+        "ram": "4GB+",
+        "notes": "Base model",
+        "size": "292MB",
+    },
+    "base.en": {
+        "ram": "4GB+",
+        "notes": "English-only version",
+        "size": "292MB",
+    },
+    "small": {
+        "ram": "5GB+",
+        "notes": "Smaller, higher accuracy",
+        "size": "492MB",
+    },
+    "small.en": {
+        "ram": "6GB+",
+        "notes": "English-only version",
+        "size": "492MB",
+    },
+    "medium": {
+        "ram": "8GB+",
+        "notes": "Medium model",
+        "size": "1.5GB",
+    },
+    "large": {
+        "ram": "12GB+",
+        "notes": "Large model",
+        "size": "2.9GB",
+    },
+    "large-v2": {
+        "ram": "15GB+",
+        "notes": "Latest large model",
+        "size": "2.9GB",
+    },
+    "large-v3": {
+        "ram": "16GB+",
+        "notes": "Newest large model",
+        "size": "2.9GB",
+    },
+    "whisper-turbo": {
+        "ram": "8GB+",
+        "notes": "Optimized for fast transcription",
+        "size": "1GB",
+    },
 }
 
 # 🔹 Eksik modülleri kontrol et
