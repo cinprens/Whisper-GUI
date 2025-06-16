@@ -13,18 +13,8 @@ os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
 
 
 def ensure_model_folder():
-    """Check model folder and optionally let the user choose a new one."""
-    global MODEL_FOLDER
-    if not os.path.isdir(MODEL_FOLDER):
-        os.makedirs(MODEL_FOLDER, exist_ok=True)
-    if messagebox.askyesno(
-        "Model Klasörü",
-        f"Model klasörü olarak '{MODEL_FOLDER}' kullanılacak. Değiştirmek ister misiniz?",
-    ):
-        new_dir = filedialog.askdirectory(initialdir=MODEL_FOLDER)
-        if new_dir:
-            MODEL_FOLDER = new_dir
-            os.makedirs(MODEL_FOLDER, exist_ok=True)
+    """MODEL_FOLDER klasörünün mevcut olduğundan emin ol."""
+    os.makedirs(MODEL_FOLDER, exist_ok=True)
 
 
 def get_installed_models():
