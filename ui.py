@@ -13,7 +13,7 @@ try:
 except Exception:
     GPU_AVAILABLE = False
 from datetime import datetime
-from config import MODEL_LIST
+from config import MODEL_LIST, TRANSCRIPT_FOLDER
 from transcriber import check_requirements, install_requirements, transcribe
 
 # Dil cevirileri
@@ -282,27 +282,29 @@ def create_main_window():
         text = transcription_area.get("1.0", tk.END).strip()
         if not text:
             return
-        file_path = filedialog.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[(lang["save_txt"], "*.txt"), (lang["save_pdf"], "*.pdf")],
-        )
-        if not file_path:
-            return
-        if file_path.endswith(".pdf"):
+        os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        txt_path = os.path.join(TRANSCRIPT_FOLDER, f"transcription_{timestamp}.txt")
+        with open(txt_path, "w", encoding="utf-8") as f:
+            f.write(text)
+        pdf_path = ""
+        if messagebox.askyesno(lang["info"], "PDF olarak da kaydedilsin mi?"):
             try:
                 from fpdf import FPDF
             except Exception:
                 messagebox.showerror("Error", lang["fpdf_error"])
-                return
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_font("Arial", size=12)
-            for line in text.splitlines():
-                pdf.cell(0, 10, line, ln=1)
-            pdf.output(file_path)
-        else:
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(text)
+            else:
+                pdf_path = os.path.join(TRANSCRIPT_FOLDER, f"transcription_{timestamp}.pdf")
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.set_font("Arial", size=12)
+                for line in text.splitlines():
+                    pdf.cell(0, 10, line, ln=1)
+                pdf.output(pdf_path)
+        info_msg = txt_path
+        if pdf_path:
+            info_msg += f"\n{pdf_path}"
+        messagebox.showinfo(lang["info"], info_msg)
 
     save_transcription_button = tk.Button(left_frame, text=lang["save_transcription"], command=save_transcription, width=20)
     save_transcription_button.pack(pady=5)

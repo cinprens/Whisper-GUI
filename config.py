@@ -9,6 +9,10 @@ warnings.filterwarnings("ignore", message="FP16 is not supported on CPU; using F
 MODEL_FOLDER = os.path.join(os.path.expanduser("~"), "Desktop", "WhisperPy", "Models")
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
 
+# 🔹 Transkripsiyon klasörü ayarı
+TRANSCRIPT_FOLDER = os.path.join(os.path.expanduser("~"), "Desktop", "WhisperPy", "Transcripts")
+os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)  # Eğer klasör yoksa oluştur
+
 # 🔹 Kullanılabilir modeller listesi
 MODEL_LIST = [
     "tiny", "tiny.en", "base", "base.en",
