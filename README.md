@@ -32,8 +32,9 @@ openai-whisper, torch, psutil, GPUtil, googletrans (install in-app or via pip)
 
 
 📁 Repository Contents
-WhisperGUI.py: Main GUI application with advanced features, real-time resource monitoring, and GPU acceleration.
-WhisperTranslator.py: Alternative or simpler version handling transcription and translation logic; feel free to tweak it.
+main.py: Application entry point; launches the GUI and controls transcription.
+ui.py: Defines the interface components and handles user interactions.
+transcriber.py: Helper module that uses Whisper models to transcribe and translate audio files.
 
 ![Screenshot 2025-01-27 195702](https://github.com/user-attachments/assets/932a7e37-0fd9-40d8-9a64-e4cc64eec556)
 
