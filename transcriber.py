@@ -1,15 +1,14 @@
-import os
-import sys
-import queue
-import threading
-import subprocess
-import torch
-import whisper
-import time  # Eksik import tamamlandı
-from tkinter import messagebox
-
-MODEL_FOLDER = r"C:\Users\Mahmut\Desktop\WhisperGUI\WhisperModels"
-os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
+import os␊
+import sys␊
+import queue␊
+import threading␊
+import subprocess␊
+import torch␊
+import whisper␊
+import time  # Eksik import tamamlandı␊
+␊
+from config import MODEL_FOLDER
+os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists␊
 
 MODEL_LIST = [
     "tiny", "tiny.en",
