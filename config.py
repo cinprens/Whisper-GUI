@@ -96,5 +96,3 @@ for module in ["whisper", "torch", "psutil", "GPUtil"]:
     except ImportError:
         missing_modules.add(module)
 
-# 🔹 Transkripsiyon için gerekli modüller var mı?
-can_transcribe = "whisper" not in missing_modules and "torch" not in missing_modules
