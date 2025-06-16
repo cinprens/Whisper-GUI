@@ -45,10 +45,18 @@ def check_requirements():
         missing_modules.append("fpdf")
     return missing_modules
 
-def install_requirements():
-    packages = ["openai-whisper", "torch", "psutil", "gputil", "fpdf"]
+def install_requirements(packages=None):
+    """Install only the given packages or the ones returned by check_requirements."""
+    if packages is None:
+        packages = check_requirements()
     for pkg in packages:
-        subprocess.run([sys.executable, "-m", "pip", "install", pkg], capture_output=True, text=True)
+        subprocess.run([
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            pkg,
+        ], capture_output=True, text=True)
 
 def run_transcription(q, stop_evt, model_name, audio_file):
     start_time = time.time()
