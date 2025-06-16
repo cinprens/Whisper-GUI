@@ -46,6 +46,8 @@ def create_main_window():
                 elif isinstance(msg, tuple):
                     if msg[0] == "Error":
                         messagebox.showerror("Error", msg[1])
+                    elif msg[0] == "Warning":
+                        messagebox.showwarning("Warning", msg[1])
                     elif msg[0] == "Result":
                         transcription_area.insert(tk.END, msg[1]['text'])
                         update_transcription_char_count()

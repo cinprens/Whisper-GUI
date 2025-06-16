@@ -6,6 +6,7 @@ import subprocess
 import torch
 import whisper
 import time  # Eksik import tamamlandı
+from tkinter import messagebox
 
 MODEL_FOLDER = r"C:\Users\Mahmut\Desktop\WhisperGUI\WhisperModels"
 os.makedirs(MODEL_FOLDER, exist_ok=True)  # Ensure model folder exists
@@ -40,8 +41,16 @@ def run_transcription(q, stop_evt, model_name, audio_file):
     try:
         if not torch.cuda.is_available():
             raise RuntimeError("No NVIDIA CUDA GPU found! GPU is required for this application.")
-        
+
         device = "cuda"
+        model_file_pt = os.path.join(MODEL_FOLDER, f"{model_name}.pt")
+        model_file_bin = os.path.join(MODEL_FOLDER, f"{model_name}.bin")
+
+        if not (os.path.isfile(model_file_pt) or os.path.isfile(model_file_bin)):
+            if not messagebox.askyesno("Eksik Model", "Model indirilsin mi?"):
+                q.put(("Warning", f"Model dosyasi bulunamadi: {model_name}."))
+                return
+
         model = whisper.load_model(model_name, device=device, download_root=MODEL_FOLDER)
         
         if stop_evt.is_set():
